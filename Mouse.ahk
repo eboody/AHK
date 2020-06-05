@@ -4,6 +4,11 @@
 	#MaxHotkeysPerInterval 100
 	;#KeyHistory 0
 	#UseHook Off
+	#Include, github.ahk
+	#Include, TextExpansion.ahk
+	#Include, Hotkeys.ahk
+	#Include, Roam.ahk
+	#Include, Wheel.ahk
 	SendMode, Input
 	ListLines Off
 	Process, Priority, , A
@@ -32,11 +37,6 @@
 	FileEncoding, UTF-8 ;so that I can use fileread to pull text file contents into clipbboard and paste them WITH EMOJIs
 	acerScroll := ACERBRIGHTNESS
 	dellScroll := DELLBRIGHTNESS
-	#Include, github.ahk
-	#Include, TextExpansion.ahk
-	#Include, Hotkeys.ahk
-	#Include, Roam.ahk
-	#Include, Wheel.ahk
 
 ;;******  Global Variables
 	global scrolled
