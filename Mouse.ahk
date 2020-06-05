@@ -21,13 +21,17 @@
 	Menu, Tray, Icon, %A_ScriptDir%\Icons\Mouse.ico
 	SetCapsLockState, alwaysoff
 	;Disable trackpad
-	FileRead, ACERBRIGHTNESS, ACERBRIGHTNESS.txt
-	FileRead, DELLBRIGHTNESS, DELLBRIGHTNESS.txt
+	acerFile = %A_ScriptDir%\temp\ACERBRIGHTNESS.txt
+	dellFile = %A_ScriptDir%\temp\DELLBRIGHTNESS.txt
+	roamFile = %A_ScriptDir%\temp\roamFile.txt
+	FileRead, ACERBRIGHTNESS, %acerFile%
+	FileRead, DELLBRIGHTNESS, %dellFile%
+	FileRead, ROAMUID, %roamFile%
 	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "SE2717H/HX" 10 %DELLBRIGHTNESS%
 	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "Acer XF270H B" 10 %ACERBRIGHTNESS%
 	FileEncoding, UTF-8 ;so that I can use fileread to pull text file contents into clipbboard and paste them WITH EMOJIs
-	FileRead, ROAMUID, RoamUID.txt
-
+		acerScroll := ACERBRIGHTNESS
+	dellScroll := DELLBRIGHTNESS
 	#Include, C:\Users\ebood\OneDrive\Documents\Code\AHK\github.ahk
 	#Include, C:\Users\ebood\OneDrive\Documents\Code\AHK\TextExpansion.ahk
 	#Include, C:\Users\ebood\OneDrive\Documents\Code\AHK\Hotkeys.ahk
@@ -41,8 +45,6 @@
 
 	middlePressed := 0
 	volumeMax := 100
-	acerScroll := ACERBRIGHTNESS
-	dellScroll := DELLBRIGHTNESS
 
 	roamtemplates := "C:\Users\ebood\OneDrive\Documents\Code\Roam Templates\"
 	global roamCommandPressed := 0
@@ -226,6 +228,7 @@
 		{
 			gitCommit()
 		}
+	reload
 	return
 
 	Capslock & F::
@@ -348,7 +351,7 @@ F18:: ;Numpad6
 					Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
 					WinWait, .*Daily.*
 					ROAMUID := WinActive("Daily Notes")
-					fileUID := FileOpen("ROAMUID.txt", "w")
+					fileUID := FileOpen(roamFile, "w")
 					fileUID.Write(ROAMUID)
 					fileUID.Close()
 				}
@@ -386,22 +389,19 @@ F18:: ;Numpad6
 		SoundPlay, C:\Windows\media\Windows Proximity Notification.wav
 		return
 	F22:: ;Numpad0
-		RunWait, %comspec% /c "C:\Program Files\Git\git-bash.exe" --cd-to-home "git add -A"
-		RunWait, %comspec% /c "C:\Program Files\Git\git-bash.exe" --cd-to-home "git add -A"
 		return	
 	F23:: ;NumpadSub
-		IfWinActive .*Visual Studio Code.* 
-		{
-			Send, {Ctrl down}{k}{0}{Ctrl Up}^s
-			SendInput, ^s
-			reload
-		}
-		else
-		Run, Code C:\Users\ebood\OneDrive\Documents\Code\AHK
+		; IfWinActive .*Visual Studio Code.* 
+		; {
+		; 	Send, {Ctrl down}{k}{0}{Ctrl Up}^s
+		; 	SendInput, ^s
+		; 	reload
+		; }
+		; else
+		Run, "Code" "C:\Users\ebood\OneDrive\Documents\Code\AHK"
 		KeyWait, F21
 		return
 	F24:: ;NumpadAdd
-		Run, Code C:\Users\ebood\OneDrive\Documents\Code\AHK
 		KeyWait F22
 		return
 
@@ -427,7 +427,8 @@ F18:: ;Numpad6
 				Progress, B zh0 fs100, %acerScroll%, , Brightness
 				Sleep 350
 				Progress, Off
-				ACERBRIGHTNESS := FileOpen("ACERBRIGHTNESS.txt", "w")
+				
+				ACERBRIGHTNESS := FileOpen(acerFile, "w")
 				ACERBRIGHTNESS.Write(acerScroll)
 				ACERBRIGHTNESS.Close()
 				return
@@ -440,7 +441,7 @@ F18:: ;Numpad6
 				WinMove, Brightness, ,-1100, 400
 				Sleep 350
 				Progress, Off
-				DELLBRIGHTNESS := FileOpen("DELLBRIGHTNESS.txt", "w")
+				DELLBRIGHTNESS := FileOpen(dellFile, "w")
 				DELLBRIGHTNESS.Write(dellScroll)
 				DELLBRIGHTNESS.Close()
 				return
@@ -507,7 +508,7 @@ F18:: ;Numpad6
 				Progress, B zh0 fs100, %acerScroll%, , Brightness
 				Sleep 350
 				Progress, Off
-				ACERBRIGHTNESS := FileOpen("ACERBRIGHTNESS.txt", "w")
+				ACERBRIGHTNESS := FileOpen(acerFile, "w")
 				ACERBRIGHTNESS.Write(acerScroll)
 				ACERBRIGHTNESS.Close()
 				return
@@ -519,7 +520,7 @@ F18:: ;Numpad6
 				WinMove, Brightness, ,-1100, 400
 				Sleep 350
 				Progress, Off
-				DELLBRIGHTNESS := FileOpen("DELLBRIGHTNESS.txt", "w")
+				DELLBRIGHTNESS := FileOpen(dellFile, "w")
 				DELLBRIGHTNESS.Write(dellScroll)
 				DELLBRIGHTNESS.Close()
 				return
