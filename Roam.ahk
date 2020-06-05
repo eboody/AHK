@@ -187,13 +187,6 @@
 	
 	
 ;;******  Pasting
-	~^s::
-		IfWinActive, .*%A_ScriptName%.*
-		{
-			gitCommit()
-		}
-	reload
-	return
 
 	Capslock & F::
     

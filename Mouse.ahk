@@ -4,11 +4,7 @@
 	#MaxHotkeysPerInterval 100
 	;#KeyHistory 0
 	#UseHook Off
-	#Include, github.ahk
-	#Include, TextExpansion.ahk
-	#Include, Hotkeys.ahk
-	#Include, Roam.ahk
-	#Include, Wheel.ahk
+	Menu, Tray, Icon, %A_ScriptDir%\Icons\Mouse.ico
 	SendMode, Input
 	ListLines Off
 	Process, Priority, , A
@@ -23,8 +19,12 @@
 	;DetectHiddenText, On
 	SetNumLockState, AlwaysOn
 	;#include C:\Users\Eran\Documents\Code\BrightnessSetter.ahk
-	Menu, Tray, Icon, %A_ScriptDir%\Icons\Mouse.ico
 	SetCapsLockState, alwaysoff
+	#Include, github.ahk
+	#Include, TextExpansion.ahk
+	#Include, Hotkeys.ahk
+	#Include, Roam.ahk
+	#Include, Wheel.ahk
 	;Disable trackpad
 	acerFile = %A_ScriptDir%\temp\ACERBRIGHTNESS.txt
 	dellFile = %A_ScriptDir%\temp\DELLBRIGHTNESS.txt
@@ -51,13 +51,14 @@
 	roamtemplates := "C:\Users\ebood\OneDrive\Documents\Code\Roam Templates\"
 	global roamCommandPressed := 0
     
-;;******  Text Expansion
 
-
-	
-;;******  Roam Stuff
-
-
+	~^s::
+		IfWinActive, .*%A_ScriptName%.*
+		{
+			gitCommit()
+		}
+	reload
+	return
 
 ;;******  NUMPADS
 	F13:: ;Numpad1
@@ -454,4 +455,3 @@ roamcap()
 		Clipboard := tempClip
 		return
 	}
-
