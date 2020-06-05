@@ -153,7 +153,7 @@ F18:: ;Numpad6
 					Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
 					WinWait, .*Daily.*
 					ROAMUID := WinActive("Daily Notes")
-					fileUID := FileOpen(roamFile, "w")
+					fileUID := FileOpen(%roamFile%, "w")
 					fileUID.Write(ROAMUID)
 					fileUID.Close()
 				}
