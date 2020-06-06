@@ -2,15 +2,7 @@
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-acerFile = %A_ScriptDir%\temp\ACERBRIGHTNESS.txt
-dellFile = %A_ScriptDir%\temp\DELLBRIGHTNESS.txt
-roamFile = %A_ScriptDir%\temp\roamFile.txt
-FileRead, ACERBRIGHTNESS, %acerFile%
-FileRead, DELLBRIGHTNESS, %dellFile%
 
-
-acerScroll := ACERBRIGHTNESS
-dellScroll := DELLBRIGHTNESS
 
 WheelDown:: ;
 		if (GetKeyState("F13", "P")){
@@ -24,8 +16,6 @@ WheelDown:: ;
 			else SendInput ^{Tab}
 		}
 		else if (GetKeyState("F15", "P")){
-			MsgBox, ACERBRIGHTNESS = %ACERBRIGHTNESS% and acerScroll = %acerScroll%
-			return
 			CoordMode, Mouse, Screen
 			MouseGetPos, posX, posY
 			if (posX > 0) & (acerScroll > 0)

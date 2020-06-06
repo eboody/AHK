@@ -28,16 +28,16 @@
 	FileRead, ROAMUID, %roamFile%
 	acerScroll := ACERBRIGHTNESS
 	dellScroll := DELLBRIGHTNESS
+	;Disable trackpad
+	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "SE2717H/HX" 10 %DELLBRIGHTNESS%
+	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "Acer XF270H B" 10 %ACERBRIGHTNESS%
+	FileEncoding, UTF-8 ;so that I can use fileread to pull text file contents into clipbboard and paste them WITH EMOJIs
 	#Include, github.ahk
 	#Include, TextExpansion.ahk
 	#Include, Hotkeys.ahk
 	#Include, Roam.ahk
 	#Include, Wheel.ahk
 	#Include, Chrome.ahk
-	;Disable trackpad
-	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "SE2717H/HX" 10 %DELLBRIGHTNESS%
-	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "Acer XF270H B" 10 %ACERBRIGHTNESS%
-	FileEncoding, UTF-8 ;so that I can use fileread to pull text file contents into clipbboard and paste them WITH EMOJIs
 
 	
 
@@ -59,7 +59,7 @@
 	reload
 	return
 
-	~+^s::
+	+^s::
 		Send ^s
 		IfWinActive, .*%A_ScriptName%.*
 		{
