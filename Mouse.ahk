@@ -20,23 +20,27 @@
 	SetNumLockState, AlwaysOn
 	;#include C:\Users\Eran\Documents\Code\BrightnessSetter.ahk
 	SetCapsLockState, alwaysoff
-	#Include, github.ahk
-	#Include, TextExpansion.ahk
-	#Include, Hotkeys.ahk
-	#Include, Roam.ahk
-	#Include, Wheel.ahk
-	;Disable trackpad
 	acerFile = %A_ScriptDir%\temp\ACERBRIGHTNESS.txt
 	dellFile = %A_ScriptDir%\temp\DELLBRIGHTNESS.txt
 	roamFile = %A_ScriptDir%\temp\roamFile.txt
 	FileRead, ACERBRIGHTNESS, %acerFile%
 	FileRead, DELLBRIGHTNESS, %dellFile%
 	FileRead, ROAMUID, %roamFile%
+	#Include, github.ahk
+	#Include, TextExpansion.ahk
+	#Include, Hotkeys.ahk
+	#Include, Roam.ahk
+	#Include, Wheel.ahk
+	#Include, Chrome.ahk
+	;Disable trackpad
 	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "SE2717H/HX" 10 %DELLBRIGHTNESS%
 	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "Acer XF270H B" 10 %ACERBRIGHTNESS%
 	FileEncoding, UTF-8 ;so that I can use fileread to pull text file contents into clipbboard and paste them WITH EMOJIs
 	acerScroll := ACERBRIGHTNESS
 	dellScroll := DELLBRIGHTNESS
+
+
+
 
 ;;******  Global Variables
 	global scrolled
@@ -48,7 +52,7 @@
 	middlePressed := 0
 	volumeMax := 100
 
-	roamtemplates := "C:\Users\ebood\OneDrive\Documents\Code\Roam Templates\"
+	
 	global roamCommandPressed := 0
     
 

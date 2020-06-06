@@ -115,7 +115,7 @@
 		Sleep 150
 		Send ^u
 		Send, %page%
-		Sleep 150
+		Sleep 200
 		Send {Down}+{Enter}
 	}
 

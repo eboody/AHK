@@ -49,7 +49,7 @@ WheelDown:: ;
 			return
 		}
 		else if (GetKeyState("MButton", "P")){
-			SendInput {Volume_Down 3}
+			SendInput {Volume_Down 1}
 		}
 		else if (GetKeyState("F17", "P")){
 			IfWinActive, .*Microsoft Visual Studio
@@ -129,7 +129,7 @@ WheelDown:: ;
 		}
 		else if (GetKeyState("MButton", "P")){
 
-				SendInput {Volume_Up 3}		
+				SendInput {Volume_Up 1}		
 		}
 		else if (GetKeyState("F17", "P")){
 			IfWinActive, .*Microsoft Visual Studio
