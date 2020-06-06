@@ -20,26 +20,26 @@
 	SetNumLockState, AlwaysOn
 	;#include C:\Users\Eran\Documents\Code\BrightnessSetter.ahk
 	SetCapsLockState, alwaysoff
-	#Include, github.ahk
-	#Include, TextExpansion.ahk
-	#Include, Hotkeys.ahk
-	#Include, Roam.ahk
-	#Include, Wheel.ahk
-	#Include, Chrome.ahk
 	acerFile = %A_ScriptDir%\temp\ACERBRIGHTNESS.txt
 	dellFile = %A_ScriptDir%\temp\DELLBRIGHTNESS.txt
 	roamFile = %A_ScriptDir%\temp\roamFile.txt
 	FileRead, ACERBRIGHTNESS, %acerFile%
 	FileRead, DELLBRIGHTNESS, %dellFile%
 	FileRead, ROAMUID, %roamFile%
+	acerScroll := ACERBRIGHTNESS
+	dellScroll := DELLBRIGHTNESS
+	#Include, github.ahk
+	#Include, TextExpansion.ahk
+	#Include, Hotkeys.ahk
+	#Include, Roam.ahk
+	#Include, Wheel.ahk
+	#Include, Chrome.ahk
 	;Disable trackpad
 	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "SE2717H/HX" 10 %DELLBRIGHTNESS%
 	Run, C:\Users\ebood\OneDrive\Portable Apps\ControlMyMonitor.exe /SetValue "Acer XF270H B" 10 %ACERBRIGHTNESS%
 	FileEncoding, UTF-8 ;so that I can use fileread to pull text file contents into clipbboard and paste them WITH EMOJIs
-	acerScroll := ACERBRIGHTNESS
-	dellScroll := DELLBRIGHTNESS
 
-
+	
 
 
 ;;******  Global Variables
@@ -55,13 +55,16 @@
 	
 	global roamCommandPressed := 0
     
-
 	~^s::
+	reload
+	return
+
+	~+^s::
+		Send ^s
 		IfWinActive, .*%A_ScriptName%.*
 		{
 			gitCommit()
 		}
-	reload
 	return
 
 ;;******  NUMPADS
@@ -153,12 +156,13 @@ F18:: ;Numpad6
 					return
 				}
 
+	
 				IfWinNotExist, ahk_id %ROAMUID%
 				{
 					Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
-					WinWait, .*Daily.*
+					WinWait, .*Daily Notes.*
 					ROAMUID := WinActive("Daily Notes")
-					fileUID := FileOpen(%roamFile%, "w")
+					fileUID := FileOpen(roamFile, "w")
 					fileUID.Write(ROAMUID)
 					fileUID.Close()
 				}
