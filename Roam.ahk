@@ -106,7 +106,6 @@
 		; as it stands it'll skip the first option which is to create a new page with the search result
 		; and select the second entry in the menu which will be the closest match
 		sidebar("onboarding")
-		sidebar("onboarding week 1")
 		sidebar("live list")
 	}return
 
@@ -213,6 +212,40 @@
 			Send, {Enter}{Space}
 		}
 		return
+
+;-------------------------------------------------------------------------------
+Capitalize_Sentences(Text) { ; parts taken from AutoHotkey Help
+;-------------------------------------------------------------------------------
+    static Delimiters := ".!?"
+
+    Loop, Parse, Text, %Delimiters%
+    {
+        ; Calculate the position of the delimiter at the end of this field
+        Position += StrLen(A_LoopField) + 1
+
+        ; Retrieve the delimiter found by the parsing loop
+        Delimiter := SubStr(Text, Position, 1)
+
+        ; capitalize the first character
+        StringUpper, FirstChar, % SubStr(Trim(A_LoopField), 1, 1)
+        ; putting it all together
+		Result .= FirstChar SubStr(Trim(A_LoopField), 2) Delimiter A_Space
+    }
+    Return, Result
+}
+
+roamcap()
+	{
+		tempClip := ClipboardAll
+		Send {Space}^a^c^1
+		Sleep 25 ; this is in miliseconds. you MIGHT need to increase this by 10 or 20 if your computer is a little slower than mine. you could safely go to 100 too. I just type fast.
+		if !(RegExMatch(Clipboard, ".*http"))
+			Clipboard := Capitalize_Sentences(Clipboard)
+		Send, ^v{Backspace}
+		Sleep 50
+		Clipboard := tempClip
+		return
+	}
 ; ; == == == ==  launch the app
 ; F4::
 ;     Keywait F4

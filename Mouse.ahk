@@ -38,7 +38,6 @@
 	#Include, Roam.ahk
 	#Include, Wheel.ahk
 	#Include, Chrome.ahk
-
 	
 
 
@@ -64,7 +63,9 @@
 		IfWinActive, .*%A_ScriptName%.*
 		{
 			gitCommit()
+			return
 		}
+		send ^+s
 	return
 
 ;;******  NUMPADS
@@ -93,82 +94,59 @@
 	F16:: ;Numpad4
 		SendInput {LAlt Down}{Tab}
 		KeyWait F16
-		if (middlePressed == 1){
-			Send, {esc}
-			middlePressed := 0
-		}
+		; if (middlePressed == 1){
+		; 	Send, {esc}
+		; 	middlePressed := 0
+		; }
 		SendInput {LAlt Up}
 		return
-	F17:: ;Numpad5
-		if (longPressed("F17")){
-			If WinActive(".*Edge")
-			{
-				SendInput {F5}
-			}
-			return
-		}	
-		KeyWait F17
-		if !scrolled() {
-			
-			IfWinActive .*Edge
-			{
-				SendInput ^t
-				SoundPlay, C:\Windows\media\Windows Feed Discovered.wav
-				WinWait, .*Speed Dial.*,,
-				
-			}
-			else IfWinExist .*Edge 
-			{
-				WinActivate, .*Edge
-			WinWait, .*Edge.*,,
-				;Send, ^t
-				WinGetPos, posX, posY, winW, winH, A
-				if (posY > 700){
-					WinMove, A,,(A_ScreenWidth/2)-(winW/2), (A_ScreenHeight/2)-(winH/2)
-				}
-			}
-			else IfWinNotExist .*Edge
-			{
-				SoundPlay, C:\Windows\media\Windows Proximity Notification.wav
-				; Run, C:\Users\ebood\OneDrive\Documents\Code\Scripts\edge.bat
-				; Sleep, 500
-				; Send ^w{F5}
-				Send {LWin}
-				Sleep 100
-				Send, edge
-				Sleep 100
-				Send, {Enter}
-
-			}
-			else IfWinActive, .*Microsoft Visual Studio
-			{
-				SendInput, {F10}
-			}
-		}
-		Sleep, 100
-		return
+F17::
+if (longPressed("F17") && !scrolled()) {
+    IfWinActive, .*Edge
+    {
+        Send, {F5}
+        return
+    }
+}
+KeyWait, F17
+if !scrolled() {
+    IfWinActive .*Edge
+    {
+        Send, ^t
+        SoundPlay, C:\Windows\media\Windows Feed Discovered.wav
+        WinWait, Speed Dial
+    }
+    else IfWinExist, .*Edge
+    {
+        WinActivate, .*Edge
+        WinWait, .*Edge
+    }
+    else
+        Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default
+}
+return
 F18:: ;Numpad6
-		KeyWait F18
-		if !scrolled() {
-				IfWinExist, ahk_id %ROAMUID%
-				{
-					WinActivate, ahk_id %ROAMUID%
-					return
-				}
+KeyWait F18
+if scrolled()
+	return
+IfWinExist, ahk_id %ROAMUID%
+{
+	WinActivate, ahk_id %ROAMUID%
+	return
+}
 
-	
-				IfWinNotExist, ahk_id %ROAMUID%
-				{
-					Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
-					WinWait, .*Daily Notes.*
-					ROAMUID := WinActive("Daily Notes")
-					fileUID := FileOpen(roamFile, "w")
-					fileUID.Write(ROAMUID)
-					fileUID.Close()
-				}
-				return
-			}
-	return	
+
+IfWinNotExist, ahk_id %ROAMUID%
+{
+	Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
+	WinWait, .*Daily Notes.*
+	ROAMUID := WinActive("Daily Notes")
+	fileUID := FileOpen(roamFile, "w")
+	fileUID.Write(ROAMUID)
+	fileUID.Close()
+}
+	return
+return	
 	F19:: ;Numpad7
 		KeyWait F19
 		IfWinActive ahk_exe msedge.exe
@@ -391,15 +369,11 @@ F18:: ;Numpad6
 	longPressed(key)
 		{
 		startTime := A_TickCount
-		Sleep, 300
-		if (GetKeyState(key, "P") && !scrolled()){
-			SoundPlay, C:\Windows\media\Speech On.wav
-		}
 		KeyWait, %key%
 		if scrolled(){
 			return false
 		}
-		else if (A_TickCount - startTime > 330){
+		else if (A_TickCount - startTime > 500){
 			startTime := 0
 			return true
 		}
@@ -416,50 +390,13 @@ F18:: ;Numpad6
 		Gui, Show, H%windowHeight% W%windowWidth% ;X%WindowxCoord% Y%WindowyCoord% 
 		}
 
-	scrolled()
-		{
-			if ((A_ThisHotKey = "WheelUp") 
-			|| (A_ThisHotKey = "WheelDown")
-			|| (A_PriorHotKey = "WheelUp")
-			|| (A_PriorHotKey = "WheelDown")){
-				return true
-			}
-			return false
-		}
+scrolled(){
+    if (A_PriorKey = "WheelUp") || (A_PriorKey = "WheelDown") || (A_ThisHotKey = "WheelDown")|| (A_ThisHotKey = "Wheelup")
+        return True
+    return false
+}
 	ProcessExist(Name){
 		Process,Exist,%Name%
 		return Errorlevel
 		}
-	;-------------------------------------------------------------------------------
-Capitalize_Sentences(Text) { ; parts taken from AutoHotkey Help
-;-------------------------------------------------------------------------------
-    static Delimiters := ".!?"
 
-    Loop, Parse, Text, %Delimiters%
-    {
-        ; Calculate the position of the delimiter at the end of this field
-        Position += StrLen(A_LoopField) + 1
-
-        ; Retrieve the delimiter found by the parsing loop
-        Delimiter := SubStr(Text, Position, 1)
-
-        ; capitalize the first character
-        StringUpper, FirstChar, % SubStr(Trim(A_LoopField), 1, 1)
-        ; putting it all together
-		Result .= FirstChar SubStr(Trim(A_LoopField), 2) Delimiter A_Space
-    }
-    Return, Result
-}
-
-roamcap()
-	{
-		tempClip := ClipboardAll
-		Send {Space}^a^c^1
-		Sleep 25 ; this is in miliseconds. you MIGHT need to increase this by 10 or 20 if your computer is a little slower than mine. you could safely go to 100 too. I just type fast.
-		if !(RegExMatch(Clipboard, ".*http"))
-			Clipboard := Capitalize_Sentences(Clipboard)
-		Send, ^v{Backspace}
-		Sleep 50
-		Clipboard := tempClip
-		return
-	}

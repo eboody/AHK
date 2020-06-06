@@ -72,8 +72,9 @@ insert::return ;Run, devcon enable "@HID\DLL06E4&COL02\5&3044424B&0&0001"
 		return
 
 	CapsLock & w::
-		Send, ^{Left}
-		Send, ^+{Right}
+		; Send, ^{Left}
+		; Send, ^+{Right}
+		Send {Up}
 		return
 	
 	CapsLock & h::
