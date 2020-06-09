@@ -73,7 +73,7 @@ WheelDown:: ;
 			else
 			{
 				SendInput ^{WheelDown}
-				return
+				Sleep 100
 			}
 		}
 		else if (GetKeyState("F22","P")){
@@ -153,8 +153,9 @@ WheelDown:: ;
 			else 
 			{
 				SendInput ^{WheelUp}
-				return
+				sleep 100
 			}
+			return
 		}
 		else if (GetKeyState("F22","P")){
 			Run DisplaySwitch.exe /External

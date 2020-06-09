@@ -6,7 +6,6 @@ roamtemplates := "C:\Users\ebood\OneDrive\Documents\Code\Roam Templates\"
 
     :*:@@::eboodnero@gmail.com
 	:*:!!::4807 Vanalden Ave. Tarzana, CA 91356
-	:*:##::(818)509-4253
 	
 
 	:?*:---::{Alt down}{Numpad0}{Numpad1}{Numpad5}{Numpad1}{Alt up}
@@ -69,6 +68,10 @@ roamtemplates := "C:\Users\ebood\OneDrive\Documents\Code\Roam Templates\"
 	
     :*?:/deg::
 	Send {U+00B0}
+	return
+
+	:*:///::
+	Send /**/{Left 2}
 	return
 
 	:*:/spenda::
@@ -169,7 +172,7 @@ roamtemplates := "C:\Users\ebood\OneDrive\Documents\Code\Roam Templates\"
 		Send, ^v
 	}
 	return
-	:*:/weekly::
+	:*:/weeklyr::
 	IfWinActive ahk_id %ROAMUID%
 	{
 		FileRead, Clipboard, %roamtemplates%Weekly Review.txt

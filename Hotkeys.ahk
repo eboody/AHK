@@ -80,7 +80,7 @@ insert::return ;Run, devcon enable "@HID\DLL06E4&COL02\5&3044424B&0&0001"
 	CapsLock & h::
 		Run, C:\Users\ebood\OneDrive\Portable Apps\nircmd-x64\nircmd.exe win togglehide class Shell_TrayWnd
 		return
-
+	+CapsLock:: return
 
 ;;******  WINDOWS KEY + H TOGGLES HIDDEN FILES
 	!#h::

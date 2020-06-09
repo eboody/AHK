@@ -59,7 +59,7 @@
 	Enter::
 		IfWinActive, ahk_id %ROAMUID%
 		{
-			if ((A_PriorKey = "Left") || (A_PriorKey = "Right") || (A_PriorKey = "LButton") || (A_PriorHotKey = "Capslock & Space") || (A_PriorKey = "."))
+			if ((A_PriorKey = "Left") || (A_PriorKey = "Right") || (A_PriorKey = "LButton") || (A_PriorHotKey = "Capslock & Space") || (A_PriorKey = ".")) || (A_PriorKey = "Up") || (A_PriorKey = "Down") || (A_PriorKey = "Enter")
 			{
 				Send {Enter}
 				return
@@ -84,7 +84,6 @@
 
 	; this gives us 3 seconds to select an autocomplete option
 	~/::
-	~#::
 	~[::
 	~^u::
 		roamcommand()
@@ -96,7 +95,6 @@
 		Send ^u
 	}return
 
-	;so that I dont have to keep typing this
 
 
 	!s::
@@ -105,6 +103,7 @@
 		;don't have an exact match for your search! if it's exact it'll select the page below it.
 		; as it stands it'll skip the first option which is to create a new page with the search result
 		; and select the second entry in the menu which will be the closest match
+		sidebar("hapday")
 		sidebar("onboarding")
 		sidebar("live list")
 	}return
@@ -239,7 +238,7 @@ roamcap()
 		tempClip := ClipboardAll
 		Send {Space}^a^c^1
 		Sleep 25 ; this is in miliseconds. you MIGHT need to increase this by 10 or 20 if your computer is a little slower than mine. you could safely go to 100 too. I just type fast.
-		if !(RegExMatch(Clipboard, ".*http"))
+		if !(RegExMatch(Clipboard, ".*http.*") || RegExMatch(Clipboard, ".*.com.*"))
 			Clipboard := Capitalize_Sentences(Clipboard)
 		Send, ^v{Backspace}
 		Sleep 50

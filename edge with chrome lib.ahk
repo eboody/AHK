@@ -2,7 +2,7 @@
 SetBatchLines, -1
 SetTitleMatchMode 2
 #Include C:\Users\ebood\OneDrive\Documents\Code\AHK\Chrome.ahk										; https://www.autohotkey.com/boards/viewtopic.php?f=6&t=42890
-
+FileEncoding, UTF-8
 
 ; "C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe"
 ;Run, "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe" " --remote-debugging-port=9222"

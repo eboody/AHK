@@ -1,6 +1,7 @@
 ﻿; Chrome.ahk v1.2
 ; Copyright GeekDude 2018
 ; https://github.com/G33kDude/Chrome.ahk
+FileEncoding, UTF-8
 
 class Chrome
 {

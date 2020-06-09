@@ -38,7 +38,7 @@
 	#Include, Roam.ahk
 	#Include, Wheel.ahk
 	#Include, Chrome.ahk
-	
+	#Include, DateFormatter.ahk
 
 
 ;;******  Global Variables
@@ -122,31 +122,32 @@ if !scrolled() {
         WinWait, .*Edge
     }
     else
-        Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default
+        Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --remote-debugging-port=9222
 }
 return
+
 F18:: ;Numpad6
-KeyWait F18
-if scrolled()
-	return
-IfWinExist, ahk_id %ROAMUID%
-{
-	WinActivate, ahk_id %ROAMUID%
-	return
-}
+	KeyWait F18
+	if scrolled()
+		return
+	IfWinExist, ahk_id %ROAMUID%
+	{
+		WinActivate, ahk_id %ROAMUID%
+		return
+	}
 
 
-IfWinNotExist, ahk_id %ROAMUID%
-{
-	Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
-	WinWait, .*Daily Notes.*
-	ROAMUID := WinActive("Daily Notes")
-	fileUID := FileOpen(roamFile, "w")
-	fileUID.Write(ROAMUID)
-	fileUID.Close()
-}
+	IfWinNotExist, ahk_id %ROAMUID%
+	{
+		Run, C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --profile-directory=Default --remote-debugging-port=9222 --app-id=odemlfkpjolgoelefnmfjhlgenokgcbo
+		WinWait, .*Daily Notes.*
+		ROAMUID := WinActive("Daily Notes")
+		fileUID := FileOpen(roamFile, "w")
+		fileUID.Write(ROAMUID)
+		fileUID.Close()
+	}
 	return
-return	
+
 	F19:: ;Numpad7
 		KeyWait F19
 		IfWinActive ahk_exe msedge.exe
@@ -331,7 +332,7 @@ return
 			MouseMove, winW-150 , 10
 		}
 		else {
-			MouseMove, WinW/2, 5
+			MouseMove, WinW/2, 6
 		}
 		SendInput {LButton Down}
 		BlockInput, MouseMoveOff
